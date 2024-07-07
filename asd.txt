@@ -1,0 +1,31 @@
+// This file was decompiled using SASCM.ini published by GTAG (http://gtag.gtagaming.com/opcode-database) on 14.6.2013
+{$CLEO .cs}
+
+//-------------MAIN---------------
+thread 'CHEAT' 
+0000: NOP 
+
+:CHEAT_13
+wait 0 
+if and
+   Player.Defined($PLAYER_CHAR)
+0ADC:   test_cheat "HACK" 
+else_jump @CHEAT_13 
+Model.Load(#MINIGUN)
+Model.Load(#SWATVAN)
+jump @CHEAT_58 
+
+:CHEAT_58
+038B: load_requested_models 
+if and
+   Model.Available(#MINIGUN)
+   Model.Available(#SWATVAN)
+else_jump @CHEAT_13 
+Actor.StorePos($PLAYER_ACTOR, 0@, 1@, 2@)
+jump @CHEAT_102 
+
+:CHEAT_102
+3@ = Car.Create(#SWATVAN, 0@, 1@, 2@)
+Car.RemoveReferences(3@)
+Actor.GiveWeaponAndAmmo($PLAYER_ACTOR, 362, 9999)
+jump @CHEAT_13 

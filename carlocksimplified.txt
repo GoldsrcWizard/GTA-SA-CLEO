@@ -1,0 +1,53 @@
+{$CLEO .cs}
+thread "CARCLOSER"
+
+:STARTINGPOS
+wait 5
+if 
+00DF:   actor $PLAYER_ACTOR driving
+jf @STARTINGPOS
+0AD1: show_formatted_text_highpriority "Click F5 to save your car, then click F6 to lock doors, and then F7 if you want to unlock them...." time 5000
+jump @START
+
+:START
+wait 5000
+0AD1: show_formatted_text_highpriority "Click F5 again when youll be in a different car to lock another cars doors..." time 5000
+jump @START4
+
+:START4
+wait 5
+if and
+00DF:   actor $PLAYER_ACTOR driving 
+0AB0:   key_pressed 116
+jf @START4
+0AD1: show_formatted_text_highpriority "Car has been saved... Click F6 to lock its doors" time 2500
+0@ = Actor.CurrentCar($PLAYER_ACTOR)
+jump @START2
+
+:START2
+wait 0
+if
+0AB0:   key_pressed 117
+jf @START2
+0AD1: show_formatted_text_highpriority "Doors have been locked, click F7 to unlock..." time 2500
+car.DoorStatus(0@, 2)
+jump @START3
+
+:START3
+if 
+0AB0: key_pressed 118
+jf @CHECK
+0AD1: show_formatted_text_highpriority "Doors have been unlocked, click F6 to lock them again..." time 2500
+car.DoorStatus(0@, 1)
+jump @START2
+
+:CHECK
+wait 0
+if and
+00DF:   actor $PLAYER_ACTOR driving
+not Actor.InCar($PLAYER_ACTOR, 0@)
+0AB0: key_pressed 116
+jf @START3
+0AD1: show_formatted_text_highpriority "Car has been saved... Click F6 to lock its doors" time 3000
+0@ = Actor.CurrentCar($PLAYER_ACTOR)
+jump @START2 

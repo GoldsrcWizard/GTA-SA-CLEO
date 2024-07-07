@@ -1,0 +1,21 @@
+{$CLEO .cs}
+thread "CHEAT"
+model.Load(#RHINO)
+038B: load_requested_models
+:START
+wait 0
+if and
+0ADC: test_cheat "HELPME"
+model.Available(#RHINO)
+jf @START 
+04C4: store_coords_to 1@ 2@ 3@ from_actor $PLAYER_ACTOR with_offset 0.0 5.0 0.0
+car.Create(0@, #RHINO, 1@, 2@, 3@)
+car.SetImmunities(0@, 1, 1, 1, 1, 1)
+01EC: make_car 0@ very_heavy 1
+01C3: remove_references_to_car 0@
+020A: set_car 0@ door_status_to 1
+03AB: set_car 0@ strong 1
+00AD: set_car 0@ max_speed_to 1000
+0161: 4@ = create_marker_above_car 0@ unused 0 visibility 1
+03E5: show_text_box 'CHEAT1'
+jump @START
